@@ -1,7 +1,5 @@
 "use strict";
 
-var _raknet = _interopRequireDefault(require("raknet"));
-
 var _zlib = _interopRequireDefault(require("zlib"));
 
 var _jwtSimple = _interopRequireDefault(require("jwt-simple"));
@@ -9,6 +7,14 @@ var _jwtSimple = _interopRequireDefault(require("jwt-simple"));
 var _protodef = require("protodef");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var raknet;
+
+if (process.env.NODE_ENV === 'development') {
+  raknet = require('../../node-raknet');
+} else {
+  raknet = require('raknet');
+}
 
 var batchProto = new _protodef.ProtoDef();
 var PUBLIC_KEY = 'MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAE8ELkixyLcwlZryUQcu1TvPOmI2B7vX83ndnWRUaXm74wFfa5f/lwQNTfrLVHa2PmenpGI6JhIMUJaWZrjmMj90NoKNFSNBuKdm8rYiXsfaz3K36x/1U26HpG0ZxK/V1V'; // createServer (object, boolean)
@@ -29,9 +35,7 @@ function createServer(options, encryption) {
       'countType': 'varint'
     }]
   }]);
-
-  var server = _raknet["default"].createServer(options);
-
+  var server = raknet.createServer(options);
   server.name = options.name || 'Minecraft Server';
   server.motd = options.motd || 'A Minecraft server'; //FIXME
 

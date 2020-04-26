@@ -1,4 +1,10 @@
-import raknet from 'raknet';
+let raknet;
+if (process.env.NODE_ENV === 'development') {
+  raknet = require('../../node-raknet');
+} else {
+  raknet = require('raknet');
+}
+
 import zlib from 'zlib';
 import jwt from 'jwt-simple';
 import { ProtoDef, Parser, Serializer } from 'protodef';

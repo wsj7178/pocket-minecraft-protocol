@@ -1,6 +1,12 @@
 'use strict';
+
+let raknet;
+if (process.env.NODE_ENV === 'development') {
+  raknet = require('../../node-raknet');
+} else {
+  raknet = require('raknet');
+}
 const assert = require('assert');
-const raknet = require('raknet');
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
@@ -10,8 +16,6 @@ batchProto.addTypes(require("./datatypes/minecraft"));
 batchProto.addType("insideBatch", ["endOfArray", { "type": ["buffer", { "countType": "i32" }] }]);
 
 function createClient(options) {
-  return null; //FIXME
-
   assert.ok(options, 'options is required');
   var port = options.port || 19132;
   var host = options.host || 'localhost';

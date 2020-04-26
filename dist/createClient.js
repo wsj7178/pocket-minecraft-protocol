@@ -1,8 +1,14 @@
 'use strict';
 
-var assert = require('assert');
+var raknet;
 
-var raknet = require('raknet');
+if (process.env.NODE_ENV === 'development') {
+  raknet = require('../../node-raknet');
+} else {
+  raknet = require('raknet');
+}
+
+var assert = require('assert');
 
 var fs = require('fs');
 
@@ -21,8 +27,6 @@ batchProto.addType("insideBatch", ["endOfArray", {
 }]);
 
 function createClient(options) {
-  return null; //FIXME
-
   assert.ok(options, 'options is required');
   var port = options.port || 19132;
   var host = options.host || 'localhost';
